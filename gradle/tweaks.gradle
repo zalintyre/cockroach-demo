@@ -1,0 +1,16 @@
+// This disables the pedantic doclint feature of JDK8
+if (JavaVersion.current().isJava8Compatible()) {
+    tasks.withType(Javadoc) {
+        options.addStringOption('Xdoclint:none', '-quiet')
+    }
+}
+
+test {
+    systemProperty "org.apache.deltaspike.ProjectStage", "UnitTest"
+}
+
+// Keep parameter names in compiled classes
+// Useful for javax.validation to keep the parameter name in the error message instead of 'arg0'
+compileJava {
+    options.compilerArgs.add '-parameters'
+}

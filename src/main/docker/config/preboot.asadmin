@@ -1,0 +1,65 @@
+#
+# Database configuration
+#------------------------------------
+
+create-jdbc-connection-pool --datasourceclassname org.postgresql.ds.PGConnectionPoolDataSource --restype javax.sql.ConnectionPoolDataSource --property portNumber=${ENV=DB_PORT}:password=${ENV=DB_PASSWORD}:user=${ENV=DB_USERNAME}:serverName=${ENV=DB_HOST}:databaseName=${ENV=DB_NAME} PostgresPool
+create-jdbc-resource --connectionpoolid PostgresPool jdbc/DefaultDb
+
+set resources.jdbc-connection-pool.PostgresPool.steady-pool-size=10
+set resources.jdbc-connection-pool.PostgresPool.max-pool-size=100
+
+# Enable database validation to reconnect on failures
+
+set resources.jdbc-connection-pool.PostgresPool.connection-validation-method=custom-validation
+set resources.jdbc-connection-pool.PostgresPool.validation-classname=org.glassfish.api.jdbc.validation.PostgresConnectionValidation
+set resources.jdbc-connection-pool.PostgresPool.is-connection-validation-required=true
+set resources.jdbc-connection-pool.PostgresPool.fail-all-connections=true
+
+
+#
+# Optimizations
+#------------------------------------
+
+# Disable dynamic reloading of webapps and autodeployment
+
+set configs.config.server-config.admin-service.das-config.dynamic-reload-enabled=false
+set configs.config.server-config.admin-service.das-config.autodeploy-enabled=false
+
+# Disable JMX Security (it is not used and throws an IOException complaining about SSL issues)
+
+set configs.config.server-config.admin-service.jmx-connector.system.security-enabled=false
+
+# disable unused services
+
+set configs.config.server-config.monitoring-service.mbean-enabled=false
+set configs.config.server-config.monitoring-service.monitoring-enabled=false
+set-notification-configuration --notifierEnabled=false --useSeparateLogFile=false --notifierDynamic=true --dynamic=true --enabled=false --target=server-config
+
+# set http thread pools and listeners
+
+set configs.config.server-config.network-config.transports.transport.tcp.acceptor-threads=2
+
+# set configs.config.server-config.network-config.network-listeners.http-listener.enabled=false
+
+set configs.config.server-config.thread-pools.thread-pool.http-thread-pool.min-thread-pool-size=2
+set configs.config.server-config.thread-pools.thread-pool.http-thread-pool.max-thread-pool-size=256
+
+# set thread pool sizes
+
+set configs.config.server-config.ejb-container.pool-resize-quantity=2
+set configs.config.server-config.ejb-container.max-pool-size=32
+set configs.config.server-config.mdb-container.pool-resize-quantity=2
+set configs.config.server-config.mdb-container.max-pool-size=8
+
+#
+# Additional Configuration
+#------------------------------------
+
+# Remove server header for HTTP and HTTPS
+
+set configs.config.server-config.network-config.protocols.protocol.http-listener.http.server-header=false
+set configs.config.server-config.network-config.protocols.protocol.https-listener.http.server-header=false
+
+# Reschedule failed timers
+
+set configs.config.server-config.ejb-container.ejb-timer-service.property.reschedule-failed-timer=true

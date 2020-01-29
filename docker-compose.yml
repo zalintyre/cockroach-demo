@@ -1,0 +1,23 @@
+version: '3'
+services:
+  cockroach-demo:
+    build: ./build/docker/
+    image: "cockroach-demo:latest"
+    environment:
+      - DB_USERNAME=roach
+      - DB_PASSWORD=12qwasyx!
+      - DB_NAME=postgres
+      - DB_SCHEMA=public
+      - DB_HOST=localhost
+      - DB_PORT=26257
+      - DEBUG_ENABLED=true
+      - PRIVATE_KEY_PASSWORD=test
+    ports:
+      - "8080:8080" # http
+      - "8081:8081" # https
+      - "9009:9009" # debugger
+      - "8849:8849" # JProfiler
+    volumes:
+      - ./src/test/payara/keystore:/opt/payara/ssl/keystore:ro
+      - ./src/test/local/conf:/conf
+    network_mode: host

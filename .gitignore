@@ -1,0 +1,50 @@
+# IntelliJ
+
+*.iml
+*.iws
+.idea/
+
+# Gradle
+.gradle
+build/
+out/
+
+# Ignore Gradle GUI config
+gradle-app.setting
+
+# Avoid ignoring Gradle wrapper jar file (.jar files are usually ignored)
+!gradle-wrapper.jar
+
+.DS_Store
+
+# compiled output
+/dist
+/tmp
+out-tsc
+
+# dependencies
+/node_modules
+
+# misc
+.sass-cache
+/connect.lock
+/coverage
+/libpeerconnection.log
+npm-debug.log
+testem.log
+/typings
+
+# e2e
+/e2e/*.js
+/e2e/*.map
+
+npm-debug.log.*
+*.log
+
+# Cache of project
+.gradletasknamecache
+structure101-settings.javax.hsp
+
+# working files for deployment pipeline
+.kube.config
+skipBuild

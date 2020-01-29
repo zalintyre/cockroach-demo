@@ -1,0 +1,46 @@
+import org.apache.tools.ant.filters.ReplaceTokens
+
+configurations {
+    // libraries passed to payara on startup
+    payaraLibs
+    // libraries that are put into the JRE lib folder
+    jreLibs
+    // JRE agents that are put into the container (they have to be activated explicitly during payara startup)
+    jreAgents
+}
+
+dependencies {
+    payaraLibs "org.slf4j:slf4j-api:1.7.27"
+    payaraLibs "org.slf4j:slf4j-jdk14:1.7.27"
+    payaraLibs "org.postgresql:postgresql:42.2.5"
+}
+
+task buildDockerContext(type: Sync) {
+    inputs.property("project.version", project.version)
+    from "src/main/docker/"
+    from("src/main/i18n") {
+        into "i18n"
+    }
+    from("$buildDir/libs/") {
+        include "*.war"
+        into "deployments"
+    }
+    from(configurations.payaraLibs) {
+        into "libs/payara"
+    }
+    from(configurations.jreLibs) {
+        into "libs/jre"
+    }
+    from(configurations.jreAgents) {
+        into "libs/agents"
+    }
+    into "$buildDir/docker/"
+    dependsOn war
+
+    filesMatching('**/*.properties') {
+        filter(ReplaceTokens, tokens: [
+                version: project.version,
+        ])
+    }
+}
+assemble.dependsOn buildDockerContext

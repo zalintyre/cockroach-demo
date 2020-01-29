@@ -1,0 +1,32 @@
+buildscript {
+    dependencies {
+        // postgres driver is required for flyway
+        classpath "org.postgresql:postgresql:42.2.5"
+    }
+}
+
+plugins {
+    id "java"
+    id "groovy"
+    id "jacoco"
+    id "war"
+    id "distribution"
+    id "maven-publish"
+
+    // external plugins
+    id "com.github.node-gradle.node" version "2.2.0"
+    id "org.owasp.dependencycheck" version "5.2.2"
+    id "com.github.jk1.dependency-license-report" version "1.11"
+}
+
+allprojects {
+    repositories {
+        mavenCentral()
+    }
+}
+
+apply from: "gradle/dependencies.gradle"
+apply from: "gradle/war.gradle"
+apply from: "gradle/docker.gradle"
+
+apply from: "gradle/tweaks.gradle"

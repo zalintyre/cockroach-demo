@@ -1,0 +1,27 @@
+war {
+    from './build/dist/'
+    archiveName "${project.name}.war"
+    manifest {
+        attributes(
+                "Application-Version": project.version,
+                "Assembly-User": System.getProperty("user.name"))
+    }
+
+    // Exclude transitive dependencies that are provided by Payara
+    rootSpec.exclude("**/*slf4j-api-*.jar")
+
+    from "${project.buildDir}/version.json"
+}
+
+import groovy.json.JsonOutput
+task versionMeta() {
+    def jsonOut = [
+            version: "${rootProject.version}",
+    ]
+    outputs.file("${project.buildDir}/version.json" as String)
+    inputs.property('version', project.version)
+    doLast {
+        project.file("${project.buildDir}/version.json" as String).write(JsonOutput.prettyPrint(JsonOutput.toJson(jsonOut)))
+    }
+}
+war.dependsOn versionMeta
