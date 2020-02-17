@@ -8,5 +8,7 @@ import java.util.UUID;
 public class DealerDto {
     private UUID id;
     private String name;
+    private String zipCode;
+    private String city;
     private String countryCode;
 }

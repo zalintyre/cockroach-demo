@@ -2,7 +2,7 @@
 # Database configuration
 #------------------------------------
 
-create-jdbc-connection-pool --datasourceclassname org.postgresql.ds.PGConnectionPoolDataSource --restype javax.sql.ConnectionPoolDataSource --property portNumber=${ENV=DB_PORT}:password=${ENV=DB_PASSWORD}:user=${ENV=DB_USERNAME}:serverName=${ENV=DB_HOST}:databaseName=${ENV=DB_NAME} PostgresPool
+create-jdbc-connection-pool --datasourceclassname org.postgresql.ds.PGConnectionPoolDataSource --restype javax.sql.ConnectionPoolDataSource --property portNumber=${ENV=DB_PORT}:user=${ENV=DB_USERNAME}:password='':serverName=${ENV=DB_HOST}:databaseName=${ENV=DB_NAME} PostgresPool
 create-jdbc-resource --connectionpoolid PostgresPool jdbc/DefaultDb
 
 set resources.jdbc-connection-pool.PostgresPool.steady-pool-size=10

@@ -20,7 +20,10 @@ public class Car {
     @Column(name = "ID", nullable = false)
     private UUID id;
 
-    @Column(name = "NAME", nullable = false)
+    @Column(name = "BRAND", nullable = false)
+    private String brand;
+
+    @Column(name="NAME", nullable = false)
     private String name;
 
     @Column(name="VIN", nullable = false)

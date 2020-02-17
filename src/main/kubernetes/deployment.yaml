@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: cockroach
+  labels:
+    app: cockroach
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: cockroach
+  template:
+    metadata:
+      labels:
+        app: cockroach
+    spec:
+      containers:
+        - name: cockroach
+          image: gcr.io/cnn-cloudnativepersistence-2/cockroach-demo:latest
+          env:
+            - name: DB_HOST
+              value: 'cockroach-demo-cockroachdb-public.default.svc.cluster.local'
+            - name: DB_PORT
+              value: '26257'
+            - name: DB_NAME
+              value: 'postgres'
+            - name: DB_USERNAME
+              value: 'root'
+          ports:
+            - containerPort: 80
+          resources:
+            limits:
+              memory: 1Gi
+            requests:
+              memory: 1Gi

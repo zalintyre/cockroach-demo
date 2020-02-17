@@ -4,7 +4,7 @@ services:
     build: ./build/docker/
     image: "cockroach-demo:latest"
     environment:
-      - DB_USERNAME=roach
+      - DB_USERNAME=root
       - DB_PASSWORD=12qwasyx!
       - DB_NAME=postgres
       - DB_SCHEMA=public

@@ -1,6 +1,6 @@
 package de.qaware.cockroach.demo.car;
 
-import de.qaware.cockroach.demo.dealer.Dealer;
+import de.qaware.cockroach.demo.integration.StatisticsController;
 import lombok.extern.slf4j.Slf4j;
 
 import javax.enterprise.context.ApplicationScoped;
@@ -14,6 +14,7 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Response;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
@@ -29,6 +30,9 @@ public class CarResource {
     @Inject
     private CarController carController;
 
+    @Inject
+    private StatisticsController statisticsController;
+
     @GET
     @Path("dealer/{dealerId}")
     public Response getCarsByDealer(@PathParam("dealerId") UUID dealerId) {
@@ -39,10 +43,21 @@ public class CarResource {
         return Response.ok(cars).build();
     }
 
+    @GET
+    @Path("statistics/{brand}")
+    public Response getStatistics(@PathParam("brand") String brand) {
+        LOGGER.info("Retrieving statistics");
+
+        Map<String, Object> statistics = statisticsController.getStatisticsForBrand(brand);
+
+        return Response.ok(statistics).build();
+    }
+
     @POST
     public Response addCar(CarDto car) {
         LOGGER.info("Adding car {}.", car);
 
+        car.setId(UUID.randomUUID());
         CarDto storedCar = carController.storeCar(car);
 
         return Response.ok(storedCar).build();

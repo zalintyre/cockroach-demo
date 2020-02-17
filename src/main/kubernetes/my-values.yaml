@@ -1,0 +1,10 @@
+statefulset:
+  replicas: 10
+  resources:
+    limits:
+      memory: "4Gi"
+    requests:
+      memory: "4Gi"
+conf:
+  cache: "2Gi"
+  max-sql-memory: "2Gi"

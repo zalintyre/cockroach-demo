@@ -1,4 +1,8 @@
-GET {{host}}/cockroach-demo/api/car/dealer/2de59e8b-123d-4c5e-8716-bca1113e9a53
+GET {{host}}/cockroach-demo/api/car/dealer/003ac07f-2f56-501e-beb5-3ffda0fc0048
+
+###
+
+GET {{host}}/cockroach-demo/api/car/statistics/Opel
 
 ###
 
@@ -8,7 +12,8 @@ Content-Type: application/json
 {
     "name": "Test",
     "vin": "ABCDEF",
-    "dealer": "43cefe39-a88f-4d64-8f90-157d5bbda0e0"
+    "brand": "Steyr",
+    "dealer": "00013709-567e-5b0f-ac62-4c672d59dd14"
 }
 
 ###

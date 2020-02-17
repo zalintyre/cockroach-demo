@@ -20,6 +20,12 @@ public class Dealer {
     @Column(name = "NAME", nullable = false)
     private String name;
 
+    @Column(name = "ZIPCODE", nullable = false)
+    private String zipCode;
+
+    @Column(name = "CITY", nullable = false)
+    private String city;
+
     @Column(name = "COUNTRYCODE", nullable = false)
     private String countryCode;
 
